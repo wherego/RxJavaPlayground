@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">RxJavaPlayground</string>
+    <string name="population">Population:\u0020</string>
+    <string name="region">Region:\u0020</string>
+</resources>
