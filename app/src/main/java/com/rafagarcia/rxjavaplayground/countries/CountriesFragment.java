@@ -2,11 +2,17 @@ package com.rafagarcia.rxjavaplayground.countries;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.rafagarcia.rxjavaplayground.R;
+import com.rafagarcia.rxjavaplayground.model.Country;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 
@@ -17,6 +23,9 @@ public class CountriesFragment extends Fragment implements CountriesView {
 
     CountriesPresenter mPresenter;
     CountriesInteractor mInteractor;
+    private RecyclerView mRecyclerView;
+    private CountriesAdapter mAdapter;
+    private List<Country> mCountryList;
 
     public static CountriesFragment newInstance() {
         CountriesFragment fragment = new CountriesFragment();
@@ -40,11 +49,25 @@ public class CountriesFragment extends Fragment implements CountriesView {
     }
 
     private void initViews(View view) {
-        ButterKnife.bind(this, view);
+        mRecyclerView = (RecyclerView)view.findViewById(R.id.recyclerView);
+        mCountryList = new ArrayList<>();
+        LinearLayoutManager manager = new LinearLayoutManager(getContext());
+        mRecyclerView.setLayoutManager(manager);
+        mAdapter = new CountriesAdapter(mCountryList, getContext());
+        mRecyclerView.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void updateAdapter(List<Country> countries) {
+        mCountryList.clear();
+        mCountryList.addAll(countries);
+        mAdapter.notifyDataSetChanged();
     }
 
     private void init() {
         mInteractor = new CountriesInteractor();
         mPresenter = new CountriesPresenter(this, mInteractor);
+//        mPresenter.getAllCountries();
+        mPresenter.getCountry("Spain");
     }
 }

@@ -1,7 +1,10 @@
 package com.rafagarcia.rxjavaplayground.countries;
 
+import android.util.Log;
+
 import com.rafagarcia.rxjavaplayground.model.Country;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import rx.Subscriber;
@@ -28,12 +31,35 @@ public class CountriesPresenter {
 
             @Override
             public void onError(Throwable e) {
-
+                Log.e("Error", e.getMessage());
             }
 
             @Override
             public void onNext(List<Country> countries) {
+                mView.updateAdapter(countries);
+            }
+        });
+    }
 
+    public void getCountry(String countryName){
+        mInteractor.getCountry(countryName, new Subscriber<Country>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(Country country) {
+                if(country != null){
+                    List<Country> list = new ArrayList<>();
+                    list.add(country);
+                    mView.updateAdapter(list);
+                }
             }
         });
     }

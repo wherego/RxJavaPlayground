@@ -3,11 +3,14 @@ package com.rafagarcia.rxjavaplayground.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.List;
 
 /**
  * Created by rafagarcia on 29/05/2016.
  */
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class Country extends BaseModel implements Parcelable {
 
     private String name;
@@ -23,7 +26,9 @@ public class Country extends BaseModel implements Parcelable {
     private String flagUrl;
     private List<String> borders;
 
+    public Country(){
 
+    }
 
     public String getName() {
         return name;
