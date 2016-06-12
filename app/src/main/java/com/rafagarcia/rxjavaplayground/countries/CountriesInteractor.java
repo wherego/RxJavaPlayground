@@ -92,7 +92,18 @@ public class CountriesInteractor {
                 .map(new Func1<Object, Country>() {
                     @Override
                     public Country call(Object o) {
-                        return (Country) ((List)o).get(0);
+                        if ((((List)o).size()) > 0) {
+                            return (Country) ((List) o).get(0);
+                        }
+                        else {
+                            return null;
+                        }
+                    }
+                })
+                .filter(new Func1<Country, Boolean>() {
+                    @Override
+                    public Boolean call(Country country) {
+                        return country != null;
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
