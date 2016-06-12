@@ -73,8 +73,15 @@ public class CountriesFragment extends Fragment implements CountriesView {
     private void init() {
         mInteractor = new CountriesInteractor();
         mPresenter = new CountriesPresenter(this, mInteractor);
+        //Get all countries
 //        mPresenter.getAllCountries();
+        //Get just a particular country
 //        mPresenter.getCountry("Spain");
-        mPresenter.getAllCountriesOneByOne();
+        //Get all countries one by one
+//        mPresenter.getAllCountriesOneByOne();
+        //Get full country information
+        //mPresenter.getCountryFullName("Aruba");
+        //Get all countries by chaining apis
+        mPresenter.getCountriesOneByOneByChainingApiCalls();
     }
 }

@@ -28,8 +28,11 @@ public class CountryWebApi extends BaseWebApi {
     }
 
     public Observable<List<Country>> getCountries() {
-
         return mRequestsService.getAllCountries();
+    }
+
+    public Observable<List<Country>> getCountryFullText(String name) {
+        return mRequestsService.getCountryFullText(name);
     }
 
     private void getRequestsService() {

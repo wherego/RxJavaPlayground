@@ -28,7 +28,9 @@ public class CountriesInteractor {
 
     void getAllCountries(Subscriber<List<Country>> subscriber){
         Observable<List<Country>> countries = mCountryApi.getCountries();
-        countries.observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(subscriber);
+        countries.observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(subscriber);
     }
 
     void getAllCountriesOneByOne(Subscriber subscriber){
@@ -39,7 +41,9 @@ public class CountriesInteractor {
                return Observable.from(countries);
             }
         })
-                .observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(subscriber);
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(subscriber);
     }
 
     void getCountry(final String countryName, Subscriber subscriber){
@@ -56,6 +60,43 @@ public class CountriesInteractor {
                         return null;
                     }
                 })
+                .subscribe(subscriber);
+    }
+
+    void getCountryFullName(final String countryName, Subscriber subscriber){
+        Observable<List<Country>> country = mCountryApi.getCountryFullText(countryName);
+        country.observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
+                .flatMap(new Func1<List<Country>, Observable<?>>() {
+                    @Override
+                    public Observable<?> call(List<Country> countries) {
+                        return Observable.from(countries);
+                    }
+                })
+                .subscribe(subscriber);
+    }
+
+    void getCountriesOneByOneByChainingApiCalls(Subscriber subscriber){
+        final Observable<List<Country>> countries = mCountryApi.getCountries();
+        countries.flatMap(new Func1<List<Country>, Observable<Country>>() {
+                    @Override
+                    public Observable<Country> call(List<Country> countries) {
+                        return Observable.from(countries);
+                    }
+                })
+                .flatMap(new Func1<Country, Observable<?>>() {
+                    @Override
+                    public Observable<List<Country>> call(Country country) {
+                        return mCountryApi.getCountryFullText(country.getName());
+                    }
+                })
+                .map(new Func1<Object, Country>() {
+                    @Override
+                    public Country call(Object o) {
+                        return (Country) ((List)o).get(0);
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
                 .subscribe(subscriber);
     }
 }

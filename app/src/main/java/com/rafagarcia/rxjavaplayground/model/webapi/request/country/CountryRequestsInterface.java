@@ -5,6 +5,7 @@ import com.rafagarcia.rxjavaplayground.model.Country;
 import java.util.List;
 
 import retrofit.http.GET;
+import retrofit.http.Path;
 import rx.Observable;
 
 /**
@@ -14,4 +15,8 @@ public interface CountryRequestsInterface {
 
     @GET("all")
     Observable<List<Country>> getAllCountries();
+
+    @GET("name/{countryName}")
+    Observable<List<Country>> getCountryFullText(@Path("countryName") String name);
+
 }

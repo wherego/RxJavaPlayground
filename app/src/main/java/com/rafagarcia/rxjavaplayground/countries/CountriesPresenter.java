@@ -69,7 +69,7 @@ public class CountriesPresenter {
 
             @Override
             public void onError(Throwable e) {
-
+                Log.e("Error", e.getMessage());
             }
 
             @Override
@@ -79,6 +79,48 @@ public class CountriesPresenter {
                     list.add(country);
                     mView.updateAdapter(list);
                 }
+            }
+        });
+    }
+
+    public void getCountryFullName(String countryName){
+        mInteractor.getCountryFullName(countryName, new Subscriber<Country>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.e("Error", e.getMessage());
+            }
+
+            @Override
+            public void onNext(Country country) {
+                if(country != null){
+                    List<Country> list = new ArrayList<>();
+                    list.add(country);
+                    mView.updateAdapter(list);
+                }
+            }
+        });
+    }
+
+    public void getCountriesOneByOneByChainingApiCalls(){
+        mInteractor.getCountriesOneByOneByChainingApiCalls(new Subscriber<Country>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.e("Error", e.getMessage());
+            }
+
+            @Override
+            public void onNext(Country country) {
+                mView.updateAdapter(country);
             }
         });
     }
