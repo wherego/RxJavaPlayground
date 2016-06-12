@@ -64,10 +64,17 @@ public class CountriesFragment extends Fragment implements CountriesView {
         mAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    public void updateAdapter(Country country) {
+        mCountryList.add(country);
+        mAdapter.notifyItemInserted(mCountryList.size() - 1);
+    }
+
     private void init() {
         mInteractor = new CountriesInteractor();
         mPresenter = new CountriesPresenter(this, mInteractor);
 //        mPresenter.getAllCountries();
-        mPresenter.getCountry("Spain");
+//        mPresenter.getCountry("Spain");
+        mPresenter.getAllCountriesOneByOne();
     }
 }

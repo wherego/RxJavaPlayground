@@ -9,4 +9,5 @@ import java.util.List;
  */
 public interface CountriesView {
     void updateAdapter(List<Country> countries);
+    void updateAdapter(Country country);
 }

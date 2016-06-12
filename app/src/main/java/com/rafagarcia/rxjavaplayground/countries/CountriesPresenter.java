@@ -41,6 +41,25 @@ public class CountriesPresenter {
         });
     }
 
+    public void getAllCountriesOneByOne(){
+        mInteractor.getAllCountriesOneByOne(new Subscriber<Country>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.e("Error", e.getMessage());
+            }
+
+            @Override
+            public void onNext(Country country) {
+                mView.updateAdapter(country);
+            }
+        });
+    }
+
     public void getCountry(String countryName){
         mInteractor.getCountry(countryName, new Subscriber<Country>() {
             @Override
